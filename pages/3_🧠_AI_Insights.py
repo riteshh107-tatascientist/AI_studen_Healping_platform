@@ -10,6 +10,7 @@ from utils.ui import apply_ui
 
 # Other imports
 from dotenv import load_dotenv
+load_dotenv()
 import google.generativeai as genai
 
 # =========================
