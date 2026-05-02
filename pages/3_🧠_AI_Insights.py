@@ -2,39 +2,27 @@ import streamlit as st
 import sys
 import os
 
-# 🔥 FIX PATH FIRST (VERY IMPORTANT)
+# 🔥 FIX PATH FIRST
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# ✅ Now import works
+# ✅ Import UI
 from utils.ui import apply_ui
+apply_ui()
 
-# Other imports
-from dotenv import load_dotenv
-load_dotenv()
+# ✅ Gemini
 import google.generativeai as genai
 
 # =========================
-# 🎨 APPLY UI
-# =========================
-apply_ui()
-
-# =========================
-# 🔐 LOAD ENV (LOCAL)
-# =========================
-load_dotenv()
-
-# =========================
-# 🔑 GET API KEY
+# 🔑 GET API KEY (FROM STREAMLIT SECRETS)
 # =========================
 api_key = os.getenv("GEMINI_API_KEY")
 
-# Safety check
 if not api_key:
-    st.error("❌ API Key not found! Add it in Streamlit Secrets or .env")
+    st.error("❌ API Key not found! Add it in Streamlit Secrets")
     st.stop()
 
 # =========================
-# 🚀 CONFIGURE GEMINI
+# 🚀 CONFIGURE MODEL
 # =========================
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-2.5-flash")
