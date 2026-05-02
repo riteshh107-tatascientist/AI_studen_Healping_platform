@@ -2,43 +2,86 @@ import streamlit as st
 
 st.set_page_config(page_title="About Project", layout="wide")
 
-# ================= HEADER =================
+# ================= GLOBAL UI =================
 st.markdown("""
 <style>
+
+/* ===== BACKGROUND ===== */
+.stApp {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+/* ===== TEXT ===== */
+h1, h2, h3, h4, h5, h6, p {
+    color: #ffffff !important;
+}
+
+/* ===== GLOW TITLE ===== */
 .glow {
-    font-size: 38px;
+    font-size: 40px;
     font-weight: bold;
     text-align: center;
     color: #00C9A7;
-    text-shadow: 0 0 10px #00C9A7, 0 0 20px #007CF0;
+    text-shadow: 0 0 10px #00C9A7, 0 0 20px #007CF0, 0 0 30px #00C9A7;
 }
+
+/* ===== GLASS CARD ===== */
 .card {
-    padding: 20px;
-    border-radius: 15px;
-    background: #ffffff;
-    box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
+    padding: 25px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    box-shadow: 0px 6px 25px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+    transition: 0.3s;
 }
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 10px 35px rgba(0,0,0,0.6);
+}
+
+/* ===== SECTION TITLE ===== */
+.section {
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center;
+    padding: 12px;
+    margin-top: 30px;
+    background: linear-gradient(45deg, #00C9A7, #007CF0);
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
+# ================= TITLE =================
 st.markdown('<div class="glow">🎯 SmartEdu AI - Student Productivity System</div>', unsafe_allow_html=True)
 
 st.write("---")
 
 # ================= PROJECT OVERVIEW =================
-st.markdown("## 📌 Project Overview")
+st.markdown('<div class="section">📌 Project Overview</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="card">
-SmartEdu AI is an advanced AI-powered student productivity system designed to analyze student behavior, predict academic performance, and provide personalized improvement strategies.
+SmartEdu AI is an advanced AI-powered student productivity system designed to analyze student behavior, predict academic performance, and provide personalized improvement strategies.<br><br>
 
-This project combines Machine Learning with Generative AI to not only predict outcomes but also guide students toward better learning habits.
+This project integrates Machine Learning + Generative AI to not just predict results, but also guide students toward smart learning habits and real-world performance improvement.
 </div>
 """, unsafe_allow_html=True)
 
 # ================= WHAT IT DOES =================
-st.markdown("## 🚀 What This Project Does")
+st.markdown('<div class="section">🚀 What This Project Does</div>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
@@ -63,7 +106,7 @@ with col2:
     """, unsafe_allow_html=True)
 
 # ================= TECHNOLOGY =================
-st.markdown("## ⚙️ Technologies Used")
+st.markdown('<div class="section">⚙️ Technologies Used</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="card">
@@ -76,19 +119,19 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ================= HOW IT WORKS =================
-st.markdown("## 🧩 How It Works")
+st.markdown('<div class="section">🧩 How It Works</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="card">
-1️⃣ User enters student details (study hours, marks, attendance, etc.)<br><br>
+1️⃣ User enters student data (study hours, marks, attendance, etc.)<br><br>
 2️⃣ Machine Learning model predicts performance (grade)<br><br>
-3️⃣ Gemini AI analyzes behavior and generates improvement plan<br><br>
-4️⃣ Dashboard shows insights, suggestions, and analytics<br>
+3️⃣ AI analyzes behavior & generates improvement plan<br><br>
+4️⃣ Dashboard shows insights, suggestions & analytics
 </div>
 """, unsafe_allow_html=True)
 
 # ================= FEATURES =================
-st.markdown("## 🔥 Key Features")
+st.markdown('<div class="section">🔥 Key Features</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="card">
@@ -102,18 +145,18 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ================= IMPACT =================
-st.markdown("## 🌍 Real-World Impact")
+st.markdown('<div class="section">🌍 Real-World Impact</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="card">
-This system can be used in schools, colleges, and ed-tech platforms to track student performance and provide personalized learning support.
+This system can be used in schools, colleges, and ed-tech platforms to track student performance and provide personalized learning support.<br><br>
 
-It helps students become more disciplined, focused, and productive using AI.
+It helps students become more disciplined, focused, and productive using AI-driven insights.
 </div>
 """, unsafe_allow_html=True)
 
-# ================= HACKATHON INFO =================
-st.markdown("## 🏆 Hackathon Details")
+# ================= HACKATHON =================
+st.markdown('<div class="section">🏆 Hackathon Details</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="card">
@@ -121,10 +164,13 @@ st.markdown("""
 🏢 Location: AIML Department, Computer Lab - 1<br><br>
 ⏰ Time: 9:45 AM – 5:00 PM<br><br>
 🎯 Event: MLH Hackathon 2.0<br><br>
-📢 Organized for innovation, AI solutions, and real-world problem solving
+🚀 Focus: AI Innovation, Real-world Problem Solving
 </div>
 """, unsafe_allow_html=True)
 
 # ================= FOOTER =================
-st.write("---")
-st.success("🚀 Built with AI + ML for Hackathon | SmartEdu AI System 🏆")
+st.markdown("""
+<div class="footer">
+🚀 Built with AI + ML | Hackathon Project | SmartEdu AI System 🏆
+</div>
+""", unsafe_allow_html=True)
