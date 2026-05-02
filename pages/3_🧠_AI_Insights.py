@@ -8,7 +8,58 @@ st.set_page_config(page_title="AI Study Coach", layout="wide")
 # 🔥 PATH FIX
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# ================= APPLY UI =================
+# ================= CLEAN DARK UI (NO CONFLICT) =================
+st.markdown("""
+<style>
+
+/* ===== FULL DARK BACKGROUND ===== */
+.stApp {
+    background: linear-gradient(135deg, #0a0f1c, #111827, #0a0f1c);
+    color: white;
+}
+
+/* ===== TEXT FIX ===== */
+h1, h2, h3, h4, h5, h6, p, span, label {
+    color: white !important;
+}
+
+/* ===== GLASS BOX ===== */
+.glass {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 20px rgba(0, 201, 167, 0.2);
+    margin-top: 15px;
+}
+
+/* ===== BUTTON GLOW ===== */
+.stButton>button {
+    background: linear-gradient(45deg, #00C9A7, #007CF0);
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    box-shadow: 0 0 15px #00C9A7;
+}
+
+.stButton>button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #00C9A7;
+}
+
+/* ===== INPUT BOX ===== */
+textarea {
+    background-color: #111827 !important;
+    color: white !important;
+    border-radius: 10px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ================= IMPORT UI (AFTER FIX) =================
 from utils.ui import apply_ui
 apply_ui()
 
@@ -26,9 +77,9 @@ if not api_key:
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-# ================= UI =================
-st.title("🧠 AI Study Coach")
-st.write("Get AI-powered personalized study plan 🚀")
+# ================= TITLE =================
+st.markdown("<h1 style='text-align:center;color:#00C9A7;'>🧠 AI Study Coach</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center;color:white;'>Get AI-powered personalized study plan 🚀</p>", unsafe_allow_html=True)
 
 # ================= INPUT =================
 text = st.text_area(
@@ -75,10 +126,15 @@ Student Data:
                 response = model.generate_content(prompt)
 
             st.success("✅ AI Insights Generated")
-            st.markdown(response.text)
 
-        except Exception:
-            st.error("❌ AI service failed")
+            st.markdown(f"""
+            <div class="glass">
+            {response.text}
+            </div>
+            """, unsafe_allow_html=True)
+
+        except Exception as e:
+            st.error(f"❌ AI service failed: {e}")
 
             st.info("""
 Fallback Advice:

@@ -10,9 +10,47 @@ st.set_page_config(page_title="Predictor", layout="wide")
 # 🔥 PATH FIX
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# ================= APPLY UI (AFTER CONFIG) =================
-from utils.ui import apply_ui
-apply_ui()
+# ================= SAFE UI (FIXED VERSION) =================
+st.markdown("""
+<style>
+
+/* ===== DARK BACKGROUND FIX ===== */
+.stApp {
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: white !important;
+}
+
+/* ===== TEXT FIX ===== */
+h1, h2, h3, h4, h5, h6, p, span, label {
+    color: white !important;
+}
+
+/* ===== INPUT FIX ===== */
+input, textarea {
+    background-color: rgba(255,255,255,0.08) !important;
+    color: white !important;
+    border-radius: 10px;
+}
+
+/* ===== BUTTON ===== */
+.stButton>button {
+    background: linear-gradient(45deg, #00C9A7, #007CF0);
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 0 15px #00C9A7;
+}
+
+/* ===== GLASS CARD ===== */
+.glass {
+    background: rgba(255,255,255,0.06);
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # ================= LOAD FILES =================
 model = joblib.load("model.pkl")
@@ -20,6 +58,7 @@ encoders = joblib.load("encoders.pkl")
 target_encoder = joblib.load("target_encoder.pkl")
 feature_columns = joblib.load("features.pkl")
 
+# ================= TITLE =================
 st.title("🤖 Student Performance Predictor")
 
 # ================= INPUTS =================
@@ -47,7 +86,7 @@ overall = (math + science + english) / 3
 def encode(col, value):
     return encoders[col].transform([value])[0]
 
-# ================= CREATE INPUT =================
+# ================= INPUT =================
 input_dict = {
     "age": age,
     "gender": encode("gender", gender),
@@ -67,7 +106,7 @@ input_dict = {
 
 input_df = pd.DataFrame([input_dict])
 
-# 🔥 IMPORTANT
+# ================= FIX FEATURE ORDER =================
 input_df = input_df[feature_columns]
 
 # ================= PREDICT =================
@@ -75,4 +114,8 @@ if st.button("🎯 Predict"):
     pred = model.predict(input_df)
     result = target_encoder.inverse_transform(pred)[0]
 
-    st.success(f"📊 Predicted Grade: {result}")
+    st.markdown(f"""
+    <div class="glass">
+    📊 Predicted Grade: <b>{result}</b>
+    </div>
+    """, unsafe_allow_html=True)
