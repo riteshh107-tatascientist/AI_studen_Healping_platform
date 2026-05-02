@@ -4,13 +4,17 @@ import pandas as pd
 import sys
 import os
 
-# 🔥 PATH FIX (IMPORTANT)
+# ================= PAGE CONFIG (FIRST) =================
+st.set_page_config(page_title="Predictor", layout="wide")
+
+# 🔥 PATH FIX
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+# ================= APPLY UI (AFTER CONFIG) =================
 from utils.ui import apply_ui
 apply_ui()
 
-# Load files
+# ================= LOAD FILES =================
 model = joblib.load("model.pkl")
 encoders = joblib.load("encoders.pkl")
 target_encoder = joblib.load("target_encoder.pkl")
@@ -18,7 +22,7 @@ feature_columns = joblib.load("features.pkl")
 
 st.title("🤖 Student Performance Predictor")
 
-# Inputs
+# ================= INPUTS =================
 age = st.slider("Age", 15, 30, 18)
 
 gender = st.selectbox("Gender", encoders["gender"].classes_)
@@ -39,11 +43,11 @@ english = st.slider("English Score", 0, 100, 50)
 
 overall = (math + science + english) / 3
 
-# Encode function
+# ================= ENCODE =================
 def encode(col, value):
     return encoders[col].transform([value])[0]
 
-# Create input
+# ================= CREATE INPUT =================
 input_dict = {
     "age": age,
     "gender": encode("gender", gender),
@@ -63,10 +67,10 @@ input_dict = {
 
 input_df = pd.DataFrame([input_dict])
 
-# Match training feature order
+# 🔥 IMPORTANT
 input_df = input_df[feature_columns]
 
-# Prediction
+# ================= PREDICT =================
 if st.button("🎯 Predict"):
     pred = model.predict(input_df)
     result = target_encoder.inverse_transform(pred)[0]

@@ -2,50 +2,41 @@ import streamlit as st
 import sys
 import os
 
-# 🔥 FIX PATH FIRST
+# ================= PAGE CONFIG (FIRST) =================
+st.set_page_config(page_title="AI Study Coach", layout="wide")
+
+# 🔥 PATH FIX
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# ✅ Import UI
+# ================= APPLY UI =================
 from utils.ui import apply_ui
 apply_ui()
 
-# ✅ Gemini
+# ================= GEMINI =================
 import google.generativeai as genai
 
-# =========================
-# 🔑 GET API KEY (FROM STREAMLIT SECRETS)
-# =========================
+# ================= API KEY =================
 api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
     st.error("❌ API Key not found! Add it in Streamlit Secrets")
     st.stop()
 
-# =========================
-# 🚀 CONFIGURE MODEL
-# =========================
+# ================= MODEL =================
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-# =========================
-# PAGE CONFIG
-# =========================
-st.set_page_config(page_title="AI Study Coach", layout="wide")
-
+# ================= UI =================
 st.title("🧠 AI Study Coach")
 st.write("Get AI-powered personalized study plan 🚀")
 
-# =========================
-# INPUT
-# =========================
+# ================= INPUT =================
 text = st.text_area(
     "Enter student details or problem",
     placeholder="Example: Study 4 hours, low attendance, weak in math, high mobile usage..."
 )
 
-# =========================
-# BUTTON
-# =========================
+# ================= BUTTON =================
 if st.button("🚀 Generate AI Advice"):
 
     if text.strip() == "":
