@@ -1,25 +1,42 @@
 import streamlit as st
-from google import genai
+import sys
 import os
-from dotenv import load_dotenv
+
+# 🔥 FIX PATH FIRST (VERY IMPORTANT)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# ✅ Now import works
 from utils.ui import apply_ui
 
+# Other imports
+from dotenv import load_dotenv
+import google.generativeai as genai
+
+# =========================
+# 🎨 APPLY UI
+# =========================
 apply_ui()
 
 # =========================
-# 🔑 LOAD ENV (LOCAL)
+# 🔐 LOAD ENV (LOCAL)
 # =========================
 load_dotenv()
 
 # =========================
-# 🔐 GET API KEY (SECURE)
+# 🔑 GET API KEY
 # =========================
 api_key = os.getenv("GEMINI_API_KEY")
 
+# Safety check
+if not api_key:
+    st.error("❌ API Key not found! Add it in Streamlit Secrets or .env")
+    st.stop()
+
 # =========================
-# 🚀 GEMINI CLIENT
+# 🚀 CONFIGURE GEMINI
 # =========================
-client = genai.Client(api_key=api_key)
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 # =========================
 # PAGE CONFIG
@@ -34,7 +51,7 @@ st.write("Get AI-powered personalized study plan 🚀")
 # =========================
 text = st.text_area(
     "Enter student details or problem",
-    placeholder="Example: Low study hours, high screen time, weak in math..."
+    placeholder="Example: Study 4 hours, low attendance, weak in math, high mobile usage..."
 )
 
 # =========================
@@ -43,7 +60,7 @@ text = st.text_area(
 if st.button("🚀 Generate AI Advice"):
 
     if text.strip() == "":
-        st.warning("Please enter student details!")
+        st.warning("⚠️ Please enter student details!")
     else:
 
         prompt = f"""
@@ -74,16 +91,14 @@ Student Data:
 """
 
         try:
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=prompt
-            )
+            with st.spinner("AI is thinking... 🤖"):
+                response = model.generate_content(prompt)
 
-            st.success("AI Insights Generated 🎯")
+            st.success("✅ AI Insights Generated")
             st.markdown(response.text)
 
-        except Exception as e:
-            st.error("AI service failed ❌")
+        except Exception:
+            st.error("❌ AI service failed")
 
             st.info("""
 Fallback Advice:
