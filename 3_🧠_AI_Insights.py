@@ -1,8 +1,16 @@
 import streamlit as st
+import sys
 import os
+
+# 🔥 FIX PATH FIRST (VERY IMPORTANT)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# ✅ Now import works
+from utils.ui import apply_ui
+
+# Other imports
 from dotenv import load_dotenv
 import google.generativeai as genai
-from utils.ui import apply_ui
 
 # =========================
 # 🎨 APPLY UI
@@ -28,7 +36,6 @@ if not api_key:
 # 🚀 CONFIGURE GEMINI
 # =========================
 genai.configure(api_key=api_key)
-
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 # =========================
@@ -90,7 +97,7 @@ Student Data:
             st.success("✅ AI Insights Generated")
             st.markdown(response.text)
 
-        except Exception as e:
+        except Exception:
             st.error("❌ AI service failed")
 
             st.info("""
