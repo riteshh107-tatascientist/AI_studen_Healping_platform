@@ -1,9 +1,15 @@
 import streamlit as st
 import joblib
 import pandas as pd
-import streamlit as st
+import sys
+import os
+
+# 🔥 PATH FIX (IMPORTANT)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from utils.ui import apply_ui
 apply_ui()
+
 # Load files
 model = joblib.load("model.pkl")
 encoders = joblib.load("encoders.pkl")
