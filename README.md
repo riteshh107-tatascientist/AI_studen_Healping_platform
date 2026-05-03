@@ -45,7 +45,7 @@ An AI-powered system to predict student performance and generate personalized st
 
 ## 🚀 Live Demo
 
-👉 [Click Here to Open Apphttps://aistudenhealpingplatform-jdsbtitb6ia7ndn75esmp7.streamlit.app/About
+👉https://aistudenhealpingplatform-jdsbtitb6ia7ndn75esmp7.streamlit.app/About
 
 ---
 
